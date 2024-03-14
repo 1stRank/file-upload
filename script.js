@@ -19,20 +19,18 @@ const base64List = [
  **/ 
 const headers = {
   "Content-Type": "application/json",
-  ClientId: "5e639e89f4434c6251f5c16ed4254a54",
+  ClientId: "b9425fd692f7317d6dd7c9b4bd68487a",
   Authorization:
-    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewoiY2xpZW50X2lkIjogIjVlNjM5ZTg5ZjQ0MzRjNjI1MWY1YzE2ZWQ0MjU0YTU0IiwKImNyZWF0ZWRfYXQiOiAxNzA4NDg3NjI3MTA5LAoiY29tcGFueV9uYW1lIiA6ICIiLAoiY2xpZW50X3R5cGUiIDogIiIsCiJyb2xlIjogIkNMSUVOVCIsCiJlbWFpbCIgOiAiYmFja3Rlc3RAdm5nLmNvbS52biIsCiJ1c2VybmFtZSI6ICJiYWNrdGVzdEB2bmcuY29tLnZuIiwKInNjb3BlIiA6ICIxLCAyLCAzLCA0LCA1LCA2IiwKImlhdCIgOiAxNzA4NDg3NjI3LAoiZXhwIiA6IDE3MTEwNzk2MjcKfQ.bfhPdKYolyCk-K6uNk2OUnSEC8VkoSUX3AbtwDid0Lg",
+    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ewoiY2xpZW50X2lkIjogImI5NDI1ZmQ2OTJmNzMxN2Q2ZGQ3YzliNGJkNjg0ODdhIiwKImNyZWF0ZWRfYXQiOiAxNzEwMjMzNzQ1NjI2LAoicm9sZSI6ICJDTElFTlQiLAoidXNlcm5hbWUiOiAidHR4dF9hcHBfdXNlciIsCiJpYXQiIDogMTcxMDIzMzc0NSwKImV4cCIgOiAxNzEyODI1NzQ1Cn0.9UKr9jyf_eeMWN5MSpgAYc0lHaGvmsr-OOKtGb0lygE",
 };
-const url = "";
+const url = "http://ttxt-faceapi.ttxt:8080/face/v1.0/import";
 
 /**
  * Profile: Update stages in here  
  **/ 
 export const options = {
   stages: [
-    { duration: "5m", target: 10 },
-    { duration: "10m", target: 25 },
-    { duration: "15m", target: 35 },
+    { duration: "10s", target: 10 },
   ],
 };
 
@@ -49,6 +47,10 @@ export default function () {
   };
 
   const res = http.post(url, JSON.stringify(bodyData), { headers: headers });
+
+  if(res.status == 200 && JSON.parse(res.body).result == 1) {
+    console.log(JSON.parse(res.body))
+  }
 
   check(res, {
     "Status code is 200": (r) => r.status == 200,
