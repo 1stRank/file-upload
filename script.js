@@ -30,9 +30,20 @@ const url = "http://ttxt-faceapi.ttxt:8080/face/v1.0/import";
  **/ 
 export const options = {
   stages: [
-    { duration: "10s", target: 10 },
+    { duration: "5m", target: 10 },
+    { duration: "10m", target: 25 },
+    { duration: "15m", target: 35 },
   ],
 };
+
+function isJsonString(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}
 
 export default function () {
   const index = Math.floor(Math.random() * base64List.length);
@@ -48,14 +59,23 @@ export default function () {
 
   const res = http.post(url, JSON.stringify(bodyData), { headers: headers });
 
-  if(res.status == 200 && JSON.parse(res.body).result == 1) {
-    console.log(JSON.parse(res.body))
+
+  let result = 0
+  if (isJsonString(res.body)) {
+    if(res.status == 200 && JSON.parse(res.body).result == 1) {
+      console.log(JSON.parse(res.body))
+    }
+
+    result = JSON.parse(r.body).result == 1
   }
+  
 
   check(res, {
     "Status code is 200": (r) => r.status == 200,
-    "Success result": (r) => JSON.parse(r.body).result == 1,
+    "Success result": (r) => result,
     "Response time is less than 10s": (r) => res.timings.duration < 10000,
   });
   sleep(1);
 }
+
+
